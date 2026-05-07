@@ -11,6 +11,7 @@ import MessageList from "./components/MessageList";
 import MessageInput from "./components/MessageInput";
 import { useMessages } from "./hooks/useMessages";
 import { useTheme } from "./hooks/useTheme";
+import { useNotifications } from "./hooks/useNotifications";
 import { Contact } from "./types/chat";
 
 import "./theme/variables.css";
@@ -26,6 +27,7 @@ const contact: Contact = { name: "Jane Doe", online: true };
 const App: FC = () => {
   const { messages, addMessage, deleteMessage } = useMessages(contact.name);
   const { isDark, toggleTheme } = useTheme();
+  useNotifications();
 
   return (
     <IonApp>

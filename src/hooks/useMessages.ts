@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ChatMessage, SendPayload, MessageStatus } from "../types/chat";
+import { scheduleReplyNotification } from "./useNotifications";
 
 const STORAGE_KEY = "minichat_messages";
 
@@ -68,6 +69,8 @@ export function useMessages(contactName: string) {
                 save(withReply);
                 return withReply;
             });
+
+            scheduleReplyNotification(reply.senderName, reply.text ?? "");
         }, 1200);
     };
 
