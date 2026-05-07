@@ -10,6 +10,7 @@ export interface ChatMessage {
   audio?: string;
   status: MessageStatus;
   createdAt: string;
+  location?: string;
 }
 
 export interface Contact {
@@ -22,4 +23,5 @@ export interface SendPayload {
   text?: string;
   image?: string;
   audio?: string;
+  location?: string;
 }

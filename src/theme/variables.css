@@ -1,2 +1,51 @@
-/* For information on how to create your own theme, please refer to:
-http://ionicframework.com/docs/theming/ */
+/* Light mode */
+:root {
+  --header-bg: #075e54;
+  --header-text: #ffffff;
+
+  --chat-bg: #e5ddd5;
+
+  --bubble-me-bg: #dcf8c6;
+  --bubble-me-text: #111111;
+  --bubble-contact-bg: #ffffff;
+  --bubble-contact-text: #111111;
+
+  --input-toolbar-bg: #f0f0f0;
+  --input-field-bg: #ffffff;
+
+  --timestamp-color: #888888;
+  --location-color: #aaaaaa;
+  --status-read-color: #34b7f1;
+  --status-default-color: #aaaaaa;
+}
+
+/* Dark mode — toggled by body.dark */
+body.dark {
+  --header-bg: #202c33;
+  --header-text: #e9edef;
+
+  /* Ionic core */
+  --ion-background-color: #111b21;
+  --ion-background-color-rgb: 17, 27, 33;
+  --ion-text-color: #e9edef;
+  --ion-text-color-rgb: 233, 237, 239;
+  --ion-toolbar-background: #202c33;
+  --ion-item-background: #111b21;
+  --ion-card-background: #1f2c34;
+
+  /* Chat colors */
+  --chat-bg: #0b141a;
+
+  --bubble-me-bg: #005c4b;
+  --bubble-me-text: #e9edef;
+  --bubble-contact-bg: #1f2c34;
+  --bubble-contact-text: #e9edef;
+
+  --input-toolbar-bg: #202c33;
+  --input-field-bg: #2a3942;
+
+  --timestamp-color: #8696a0;
+  --location-color: #8696a0;
+  --status-read-color: #53bdeb;
+  --status-default-color: #8696a0;
+}

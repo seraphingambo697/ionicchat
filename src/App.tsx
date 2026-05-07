@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import {
   IonApp,
   IonContent,
@@ -10,6 +10,7 @@ import ChatHeader from "./components/ChatHeader";
 import MessageList from "./components/MessageList";
 import MessageInput from "./components/MessageInput";
 import { useMessages } from "./hooks/useMessages";
+import { useTheme } from "./hooks/useTheme";
 import { Contact } from "./types/chat";
 
 import "./theme/variables.css";
@@ -24,14 +25,15 @@ const contact: Contact = { name: "Jane Doe", online: true };
 
 const App: FC = () => {
   const { messages, addMessage, deleteMessage } = useMessages(contact.name);
+  const { isDark, toggleTheme } = useTheme();
 
   return (
     <IonApp>
       <IonPage>
-        <ChatHeader contact={contact} />
+        <ChatHeader contact={contact} isDark={isDark} onToggleTheme={toggleTheme} />
 
         <IonContent
-          style={{ "--background": "#e5ddd5" }}
+          style={{ "--background": "var(--chat-bg)" }}
           scrollEvents={true}
         >
           <MessageList messages={messages} onDelete={deleteMessage} />

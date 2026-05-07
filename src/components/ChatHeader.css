@@ -1,0 +1,25 @@
+.chat-toolbar {
+  --background: var(--header-bg);
+  --color: var(--header-text);
+  --border-color: transparent;
+}
+
+.header-avatar {
+  width: 36px;
+  height: 36px;
+  margin: 0 6px;
+}
+
+.header-name {
+  font-size: 16px;
+  font-weight: 600;
+  margin: 0;
+  color: var(--header-text);
+}
+
+.header-status {
+  font-size: 12px;
+  opacity: 0.85;
+  margin: 0;
+  color: var(--header-text);
+}

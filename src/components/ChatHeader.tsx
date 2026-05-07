@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import { FC } from "react";
 import {
   IonHeader,
   IonToolbar,
@@ -10,22 +10,25 @@ import {
   IonAvatar,
   IonLabel,
 } from "@ionic/react";
-import { ellipsisVertical } from "ionicons/icons";
+import { ellipsisVertical, moon, sunny } from "ionicons/icons";
 import { Contact } from "../types/chat";
+import "./ChatHeader.css";
 
 interface ChatHeaderProps {
   contact: Contact;
+  isDark: boolean;
+  onToggleTheme: () => void;
 }
 
-const ChatHeader: FC<ChatHeaderProps> = ({ contact }) => (
+const ChatHeader: FC<ChatHeaderProps> = ({ contact, isDark, onToggleTheme }) => (
   <IonHeader>
-    <IonToolbar color="primary">
+    <IonToolbar className="chat-toolbar">
       <IonButtons slot="start">
         <IonBackButton defaultHref="/" text="" />
       </IonButtons>
 
       <IonButtons slot="start">
-        <IonAvatar style={{ width: 36, height: 36, margin: "0 6px" }}>
+        <IonAvatar className="header-avatar">
           {contact.avatar ? (
             <img src={contact.avatar} alt={contact.name} />
           ) : (
@@ -36,14 +39,17 @@ const ChatHeader: FC<ChatHeaderProps> = ({ contact }) => (
 
       <IonTitle>
         <IonLabel>
-          <h2 style={{ fontSize: 16, fontWeight: 600, margin: 0 }}>{contact.name}</h2>
-          <p style={{ fontSize: 12, opacity: 0.85, margin: 0 }}>
-            {contact.online ? "En ligne" : "Hors ligne"}
+          <h2 className="header-name">{contact.name}</h2>
+          <p className="header-status">
+            {contact.online ? "Online" : "Offline"}
           </p>
         </IonLabel>
       </IonTitle>
 
       <IonButtons slot="end">
+        <IonButton aria-label="Toggle theme" onClick={onToggleTheme}>
+          <IonIcon icon={isDark ? sunny : moon} slot="icon-only" />
+        </IonButton>
         <IonButton aria-label="Menu">
           <IonIcon icon={ellipsisVertical} slot="icon-only" />
         </IonButton>

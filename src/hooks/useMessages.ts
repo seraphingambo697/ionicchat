@@ -57,6 +57,7 @@ export function useMessages(contactName: string) {
                 text: AUTO_REPLIES[Math.floor(Math.random() * AUTO_REPLIES.length)],
                 status: "read",
                 createdAt: nowTime(),
+                location: "California, USA",
             };
 
             setMessages((cur) => {

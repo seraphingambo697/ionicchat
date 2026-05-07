@@ -1,4 +1,4 @@
-import React, { FC, useState, KeyboardEvent } from "react";
+import { FC, useState, KeyboardEvent } from "react";
 import {
   IonFooter,
   IonToolbar,
@@ -11,6 +11,8 @@ import { send, close } from "ionicons/icons";
 import { SendPayload } from "../types/chat";
 import ImagePicker from "./ImagePicker";
 import AudioRecorder from "./AudioRecorder";
+import { fetchLocation } from "../hooks/useGeolocation";
+import "./MessageInput.css";
 
 interface MessageInputProps {
   onSend: (payload: SendPayload) => void;
@@ -19,61 +21,62 @@ interface MessageInputProps {
 const MessageInput: FC<MessageInputProps> = ({ onSend }) => {
   const [text, setText] = useState<string>("");
   const [image, setImage] = useState<string | null>(null);
+  const [sending, setSending] = useState(false);
 
-  const canSend = text.trim().length > 0 || image !== null;
+  const canSend = (text.trim().length > 0 || image !== null) && !sending;
 
-  const send_msg = (): void => {
+  const send_msg = async (): Promise<void> => {
     if (!canSend) return;
+    setSending(true);
+    const location = await fetchLocation();
     onSend({
       text: text.trim() || undefined,
       image: image ?? undefined,
+      location: location ?? undefined,
     });
     setText("");
     setImage(null);
+    setSending(false);
   };
 
   const handleKey = (e: KeyboardEvent<HTMLIonInputElement>): void => {
-    if (e.key === "Enter") send_msg();
+    if (e.key === "Enter") void send_msg();
   };
 
   return (
     <IonFooter>
-      {/* Aperçu image */}
       {image && (
-        <IonToolbar style={{ "--background": "#f0f0f0", "--min-height": "72px" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: 8, padding: "6px 12px" }}>
+        <IonToolbar style={{ "--background": "var(--input-toolbar-bg)", "--min-height": "72px" }}>
+          <div className="input-preview-row">
             <IonThumbnail style={{ "--size": "56px", borderRadius: 8, overflow: "hidden" }}>
-              <img src={image} alt="Aperçu" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
+              <img src={image} alt="preview" style={{ objectFit: "cover", width: "100%", height: "100%" }} />
             </IonThumbnail>
-            <IonButton fill="clear" color="danger" onClick={() => setImage(null)} aria-label="Supprimer photo">
+            <IonButton fill="clear" color="danger" onClick={() => setImage(null)} aria-label="Remove photo">
               <IonIcon slot="icon-only" icon={close} />
             </IonButton>
           </div>
         </IonToolbar>
       )}
 
-      {/* Barre de saisie */}
-      <IonToolbar style={{ "--background": "#f0f0f0", "--min-height": "56px" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: 4, padding: "4px 8px" }}>
-
+      <IonToolbar style={{ "--background": "var(--input-toolbar-bg)", "--min-height": "56px" }}>
+        <div className="input-row">
           <ImagePicker onImageReady={setImage} />
 
           <IonInput
             value={text}
-            placeholder="Digite uma mensagem"
+            placeholder="Type a message"
             onIonInput={(e) => setText(e.detail.value ?? "")}
             onKeyDown={handleKey}
             aria-label="Message"
+            className="input-field"
             style={{
-              "--background": "#fff",
+              "--background": "var(--input-field-bg)",
+              "--color": "var(--ion-text-color)",
               "--border-radius": "20px",
               "--padding-start": "14px",
               "--padding-end": "14px",
               "--padding-top": "8px",
               "--padding-bottom": "8px",
-              fontSize: 15,
-              flex: 1,
-              boxShadow: "0 1px 2px rgba(0,0,0,0.1)",
             }}
           />
 
@@ -84,7 +87,7 @@ const MessageInput: FC<MessageInputProps> = ({ onSend }) => {
               shape="round"
               color="success"
               onClick={send_msg}
-              aria-label="Envoyer"
+              aria-label="Send"
               style={{ "--padding-start": "12px", "--padding-end": "12px", width: 44, height: 44 }}
             >
               <IonIcon slot="icon-only" icon={send} />
